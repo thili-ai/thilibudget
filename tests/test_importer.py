@@ -42,6 +42,14 @@ def test_progress_is_reported_in_batches():
     assert seen[0] == pytest.approx(500 / 1200) and seen[-1] == 1.0
 
 
+def test_throttle_pauses_every_batch_even_without_a_progress_callback():
+    import time
+    big = "date,description,amount,category\n" + "2026-01-01,x,-1,misc\n" * 1500
+    start = time.perf_counter()
+    parse_statement(big, throttle=0.05)          # 3 batches -> at least ~0.15 s
+    assert time.perf_counter() - start >= 0.14
+
+
 def test_a_fresh_job_is_idle():
     job = ImportJob()
     assert (job.status, job.progress, job.result, job.error) == ("idle", 0.0, None, None)

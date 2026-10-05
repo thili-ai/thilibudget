@@ -59,8 +59,9 @@ def parse_statement(
             out.append(Transaction.parse(row["date"], row["amount"], row["category"], row["description"]))
         except BudgetError as exc:
             raise StatementImportError(str(exc), line=line_no) from exc
-        if on_progress and done % BATCH == 0:
-            on_progress(done / total)
+        if done % BATCH == 0:
+            if on_progress:
+                on_progress(done / total)
             if throttle:
                 time.sleep(throttle)
     if on_progress:
