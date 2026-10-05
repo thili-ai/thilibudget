@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thilibudget"
+version = "0.1.0"
+description = "A small, hackable budget tracker — the reference implementation for the Learn Fast course 'Build a Budget Tracker App'."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+# Pinned on purpose: Streamlit's threading API has moved module paths between releases.
+app = ["streamlit==1.65.0"]
+dev = ["pytest>=8", "streamlit==1.65.0"]
+
+[tool.setuptools]
+packages = ["thilibudget"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
