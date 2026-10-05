@@ -35,7 +35,7 @@ git clone https://github.com/thili-ai/thilibudget && cd thilibudget
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"          # the package is installed so `streamlit run` can import it
 
-pytest                           # 56 tests
+pytest                           # 57 tests
 python examples/lesson1_logger.py
 streamlit run thilibudget/app.py
 ```
