@@ -7,47 +7,47 @@ a file that survives a crash) — and by the end this script is what you stop wr
     python examples/lesson1_logger.py
 """
 
-ledger = []  # a list of dicts: {"amount": float, "category": str, "note": str}
 
-
-def add(amount, category, note=""):
+def add(ledger, amount, category, note=""):
     ledger.append({"amount": amount, "category": category, "note": note})
 
 
-def balance():
+def balance(ledger):
     total = 0
     for entry in ledger:
         total += entry["amount"]
     return total
 
 
-def show():
-    for i, entry in enumerate(ledger, start=1):
-        print(f"{i:>3}  {entry['amount']:>10.2f}  {entry['category']:<12} {entry['note']}")
-    print(f"     {'balance':>10}  {balance():>10.2f}")
+def show(ledger):
+    for number, entry in enumerate(ledger, start=1):
+        print(f"{number:>3}  {entry['amount']:>10.2f}  {entry['category']:<12} {entry['note']}")
+    print(f"     {'balance':>10}  {balance(ledger):>10.2f}")
 
 
 def main():
-    print("commands: add <amount> <category> [note...] | list | balance | quit   (expenses are negative)")
+    ledger = []
+    print("commands: add <amount> <category> [note] | list | balance | quit")
+    print("income is positive, an expense is negative")
     while True:
         try:
-            line = input("> ").strip()
+            line = input().strip()
         except EOFError:
             break
-        if not line:
+        if line == "":
             continue
-        parts = line.split()
-        command = parts[0]
-        if command == "add" and len(parts) >= 3:
-            add(float(parts[1]), parts[2], " ".join(parts[3:]))  # float("abc") will crash us. Lesson 5 fixes that.
+        words = line.split()
+        command = words[0]
+        if command == "add" and len(words) >= 3:
+            add(ledger, float(words[1]), words[2], " ".join(words[3:]))  # float("abc") crashes us
         elif command == "list":
-            show()
+            show(ledger)
         elif command == "balance":
-            print(balance())  # add 0.1 then 0.2 and look closely: floats are not money (lesson 2)
+            print(balance(ledger))  # add 0.1 then 0.2 and look closely: floats are not money
         elif command == "quit":
             break
         else:
-            print("?")
+            print("sorry, I don't understand that")
 
 
 if __name__ == "__main__":
