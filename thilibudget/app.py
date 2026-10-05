@@ -73,7 +73,6 @@ if account.transactions:
     st.dataframe(
         [{"date": t.date, "amount": float(t.amount), "category": t.category,
           "description": t.description} for t in reversed(account.transactions)],
-        use_container_width=True,
     )
 else:
     st.info("No transactions yet — add one in the sidebar.")
